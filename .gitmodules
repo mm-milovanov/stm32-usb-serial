@@ -1,0 +1,3 @@
+[submodule "ext/embedded-sys-lib-drv"]
+	path = ext/embedded-sys-lib-drv
+	url = git@github.com:mm-milovanov/embedded-sys-lib-drv.git
