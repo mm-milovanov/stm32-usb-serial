@@ -1,0 +1,8 @@
+build
+
+# Ignore .vscode folder
+.vscode/**
+# exclude 
+!.vscode/launch.json
+!.vscode/tasks.json
+!.vscode/c_cpp_properties.json
