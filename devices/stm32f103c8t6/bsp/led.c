@@ -1,40 +1,24 @@
-#include <bsp/leds.h>
+#include "led.h"
 
-#include <defconfig.h>
-#include <lib-stm32drv/gpio.h>
-#include <cmsis/stm32f4xx.h>
+#include <ESDL/gpio.h>
+#include <cmsis/stm32f1xx.h>
 
-gpio_pin_hdl_t __LED_RED__;
-gpio_pin_hdl_t __LED_GREEN__;
+gpio_pin_hdl_t __LED__;
 
-void __leds_init__()
+void Led_init()
 {
-    const gpio_pin_conf_t pin_red_conf = {
-        ._gpioX = GPIOG,
-        ._idx = 14,
-        ._moder = GPIO_MODER_OUTPUT,
-        ._otyper = GPIO_OTYPER_OUTPUT_PP,
-        ._ospeedr = GPIO_OSPEEDR_VERY_HIGH,
-        ._pupdr = GPIO_PUPDR_UP,
-        ._clk = GPIOG_CLK_EN
+    const gpio_pin_conf_t pin_conf = {
+        .gpioX = GPIOC,
+        .idx = 13,
+        .cnf = GPIO_CNF_PUSH_PULL_OUTPUT,
+        .mode = GPIO_MODE_OUTPUT_50MHZ,
+        .clk = GPIOC_CLK_EN
     };
 
-    const gpio_pin_conf_t pin_green_conf = {
-        ._gpioX = GPIOG,
-        ._idx = 13,
-        ._moder = GPIO_MODER_OUTPUT,
-        ._otyper = GPIO_OTYPER_OUTPUT_PP,
-        ._ospeedr = GPIO_OSPEEDR_VERY_HIGH,
-        ._pupdr = GPIO_PUPDR_UP,
-        ._clk = GPIOG_CLK_EN
-    };
-
-    gpio_pin_hdl_ctor(&__LED_GREEN__, &pin_green_conf);
-    gpio_pin_hdl_ctor(&__LED_RED__, &pin_red_conf);
+    gpio_pin_hdl_ctor(&__LED__, &pin_conf);
 }
 
-void __leds_fini__()
+void Led_deinit()
 {
-    gpio_pin_hdl_dtor(&__LED_GREEN__);
-    gpio_pin_hdl_dtor(&__LED_RED__);
+    gpio_pin_hdl_dtor(&__LED__);
 }

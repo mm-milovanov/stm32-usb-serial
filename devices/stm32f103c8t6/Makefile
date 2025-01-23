@@ -1,15 +1,13 @@
 ######################################
 # target
 ######################################
-TARGET = stm32f429i_disk1_example
+TARGET = stm32f103c8t6_fw
 FW_START_ADDRESS = 0x08000000
 
-STM32DRV_DIR = ./ext/lib-stm32drv
-SCRIPTS_PATH = $(STM32DRV_DIR)/tools
-CMSIS_INCLUDE_DIR = $(STM32DRV_DIR)
-STM32DRV_INCLUDE_DIR = $(STM32DRV_DIR)/include
-STM32DRV_SRC_DIR = $(STM32DRV_DIR)/src
-
+ESDL_DIR = ../../ext/embedded-sys-lib-drv
+SCRIPTS_PATH = $(ESDL_DIR)/tools
+ESDL_INC_DIR = $(ESDL_DIR)/include
+ESDL_SRC_DIR = $(ESDL_DIR)/src
 
 ######################################
 # building variables
@@ -32,27 +30,27 @@ BUILD_DIR = build
 
 # C sources
 C_SOURCES =  \
-src/main.c \
-src/bsp/leds.c \
-src/bsp/bsp.c \
-src/bsp/usart1.c \
-src/bsp/spi5.c \
-src/system/system.c \
-src/system/exchange.c \
-src/system/spi_control.c \
-src/proto/proto.c \
-src/proto/crc16.c \
-src/proto/ringbuffer.c \
-src/proto/parser.c \
-$(STM32DRV_SRC_DIR)/rcc/rcc_f429xx.c \
-$(STM32DRV_SRC_DIR)/uart/uart_f4xx.c \
-$(STM32DRV_SRC_DIR)/spi/spi_f4xx.c \
-$(STM32DRV_SRC_DIR)/systick/systick_cm4.c \
-$(STM32DRV_SRC_DIR)/gpio/gpio_f4xx.c \
+main.c \
+bsp/led.c \
+bsp/bsp.c \
+$(ESDL_SRC_DIR)/rcc/rcc_stm32f103.c \
+$(ESDL_SRC_DIR)/systick/systick_cm3.c \
+$(ESDL_SRC_DIR)/gpio/gpio_stm32f1xx.c \
+# $(STM32DRV_SRC_DIR)/uart/uart_f4xx.c \
+# $(STM32DRV_SRC_DIR)/spi/spi_f4xx.c \
+# src/bsp/usart1.c \
+# src/bsp/spi5.c \
+# src/system/system.c \
+# src/system/exchange.c \
+# src/system/spi_control.c \
+# src/proto/proto.c \
+# src/proto/crc16.c \
+# src/proto/ringbuffer.c \
+# src/proto/parser.c \
 
 # ASM sources
 ASM_SOURCES =  \
-src/startup.s
+src/startup_stm32f103xb.s
 
 #######################################
 # binaries
@@ -78,13 +76,13 @@ BIN = $(CP) -O binary -S
 # CFLAGS
 #######################################
 # cpu
-CPU = -mcpu=cortex-m4
+CPU = -mcpu=cortex-m3
 
 # fpu
-FPU = -mfpu=fpv4-sp-d16
+# NONE
 
 # float-abi
-FLOAT-ABI = -mfloat-abi=hard
+# FLOAT-ABI = -mfloat-abi=soft
 
 # mcu
 MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
@@ -95,17 +93,14 @@ AS_DEFS =
 
 # C defines
 C_DEFS = \
--DSTM32F429xx
+-DSTM32F103x6
 
 # AS includes
 AS_INCLUDES = 
 
 # C includes
 C_INCLUDES = \
--I./include \
--I$(STM32DRV_DIR)/drv \
--I$(CMSIS_INCLUDE_DIR) \
--I$(STM32DRV_INCLUDE_DIR)
+-I$(ESDL_INC_DIR)
 
 
 # compile gcc flags
@@ -126,7 +121,7 @@ CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 # LDFLAGS
 #######################################
 # link script
-LDSCRIPT = STM32F429ZITx_FLASH.ld
+LDSCRIPT = STM32F103C8Tx_FLASH.ld
 
 # libraries
 LIBS = -lc -lm -lnosys 
@@ -134,7 +129,7 @@ LIBDIR =
 LDFLAGS = $(MCU) -specs=nano.specs -T$(LDSCRIPT) $(LIBDIR) $(LIBS) -Wl,-Map=$(BUILD_DIR)/$(TARGET).map,--cref -Wl,--gc-sections
 
 # default action: build all
-all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin genver
+all: $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin # genver
 
 
 #######################################
@@ -169,8 +164,8 @@ $(BUILD_DIR):
 #######################################
 # generate version
 #######################################	
-genver: $(BUILD_DIR)/$(TARGET).bin
-	python3 $(SCRIPTS_PATH)/postimg.py $(BUILD_DIR)/$(TARGET).bin	
+# genver: $(BUILD_DIR)/$(TARGET).bin
+# 	python3 $(SCRIPTS_PATH)/postimg.py $(BUILD_DIR)/$(TARGET).bin	
 
 #######################################
 # clean up
@@ -187,7 +182,8 @@ clean:
 # prog
 #######################################
 
+# board/stm32f103c8_blue_pill.cfg
 prog: $(BUILD_DIR)/$(TARGET).elf
-	openocd -f board/stm32f429disc1.cfg -c "program build/$(TARGET).bin exit reset $(FW_START_ADDRESS)"
+	openocd -f ./stlink_v2_stm32f103c8t6.cfg -c "program build/$(TARGET).bin exit reset $(FW_START_ADDRESS)"
 
 # *** EOF ***

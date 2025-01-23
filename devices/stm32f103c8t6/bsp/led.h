@@ -1,7 +1,7 @@
-#ifndef __leds_h__
-#define __leds_h__
+#ifndef __led_h__
+#define __led_h__
 
-void __leds_init__();
-void __leds_fini__();
+void Led_init();
+void Led_deinit();
 
-#endif // __leds_h__
+#endif // __led_h__
