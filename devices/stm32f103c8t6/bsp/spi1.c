@@ -1,21 +1,20 @@
-#include <bsp/spi5.h>
-#include <defconfig.h>
+#include "spi1.h"
 
-#include <lib-stm32drv/gpio.h>
-#include <cmsis/stm32f429xx.h>
+#include <ESDL/gpio.h>
+#include <cmsis/stm32f1xx.h>
 
-static void __spi5_nss__ (uint8_t status);
+static void __spi1_nss__ (uint8_t status);
 
 // SPI handle
 spi_conf_t __SPI5__;
-// SPI5 pins
+// SPI1 pins
 static gpio_pin_hdl_t spi5_sck_pin;
 static gpio_pin_hdl_t spi5_miso_pin;
 static gpio_pin_hdl_t spi5_mosi_pin;
 static gpio_pin_hdl_t spi5_nss_pin;
 
-void SPI5_init() {
-    /* SPI5 SCK GPIO configuration */
+void SPI1_init() {
+    /* SPI1 SCK GPIO configuration */
 
     const gpio_pin_conf_t spi5_sck_conf = {
         ._gpioX     = GPIOF,
