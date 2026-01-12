@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/ext/embedded-sys-lib-drv/include",
+                "${workspaceFolder}/devices/stm32f103c8t6/bsp",
+                "/usr/local/include"
+            ],
+            "defines": ["STM32F103x6"],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c17",
+            "intelliSenseMode": "linux-clang-x64"
+        }
+    ],
+    "version": 4
+}

@@ -1,7 +1,9 @@
 #include <system/system.h>
 #include <system/spi_control.h>
 
-#include <lib-stm32drv/systick.h>
+#include <cmsis/stm32f1xx.h>
+
+#include <cortex/systick.h>
 
 #define STR_BUF_SIZE            128
 // Str buffer
@@ -50,14 +52,6 @@ void System_onEcho(exchange_hdl_t* hdl, char* data, int size)
     Exchange_sendStatusPkg(hdl, pkg, 0x00);
 }
 
-void System_getVar(system_hdl_t* hdl, char* data, int size) {
-    proto_pkg_t* pkg = data;
-
-    uint32_t val = SpiControl_getVar(hdl, data, size);
-    uint16_t status = (val == -1) ? 0xFFFF : 0x0;
-    Exchange_sendPkg(&hdl->exchange, pkg->reg1, pkg->reg2, status, ((char*)&val), 4);
-}
-
 void System_setVar(system_hdl_t* hdl, char* data, int size) {
     proto_pkg_t* pkg = data;
 
@@ -89,6 +83,12 @@ void System_spiRead(system_hdl_t* hdl, char* data, int size) {
         hdl->spiControl.requestBuf[i] = pkg->payload[i];
 
     SpiControl_read(&hdl->spiControl, payloadSize);
+
+    if (hdl->spiControl.responseBuf[1] == '\xFF') {
+        int tmp = 0;
+        tmp++;
+    }
+
 
     Exchange_sendPkg(&hdl->exchange,
                      pkg->reg1,

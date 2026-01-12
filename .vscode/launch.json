@@ -1,0 +1,20 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "stm32f103c8t6",
+			"type": "cortex-debug",
+			"request": "launch",
+			"cwd": "${workspaceRoot}/devices/stm32f103c8t6",
+			"servertype": "openocd",
+			"executable": "${workspaceRoot}/devices/stm32f103c8t6/build/stm32f103c8t6_fw.elf",
+			// "svdFile": "${cwd}/STM32F103.svd",
+			"configFiles": [
+                "${workspaceRoot}/devices/stm32f103c8t6/stlink_v2_stm32f103c8t6.cfg"
+			],
+			"preLaunchTask": "build stm32f103c8t6",
+            "gdbPath": "/usr/bin/gdb-multiarch",
+            "armToolchainPath": "/usr/bin"
+		}
+	]
+}

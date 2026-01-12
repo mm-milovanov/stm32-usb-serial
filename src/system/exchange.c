@@ -2,10 +2,11 @@
 #include <proto/proto.h>
 #include <proto/crc16.h>
 
-#include <lib-stm32drv/uart.h>
-#include <lib-stm32drv/gpio.h>
+#include <ESDL/uart.h>
+#include <ESDL/gpio.h>
 
-#include <cmsis/stm32f4xx.h>
+#include <cmsis/gcc.h>
+#include <cmsis/stm32f1xx.h>
 
 // Package header and footer from control device to board
 #define FROM_CTRL_PACKAGE_HEADER    ((uint16_t)0xCDE6)

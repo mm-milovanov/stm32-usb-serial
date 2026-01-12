@@ -1,7 +1,7 @@
 #ifndef __spi_control_h__
 #define __spi_control_h__
 
-#include <lib-stm32drv/spi.h>
+#include <ESDL/spi.h>
 
 #include <stdbool.h>
 

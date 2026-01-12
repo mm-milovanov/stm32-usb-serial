@@ -17,8 +17,6 @@ void System_step(system_hdl_t* hdl);
 
 void System_onEcho(exchange_hdl_t* hdl, char* data, int size);
 
-void System_getVar(system_hdl_t* hdl, char* data, int size);
-
 void System_spiWrite(system_hdl_t* hdl, char* data, int size);
 
 void System_spiRead(system_hdl_t* hdl, char* data, int size);

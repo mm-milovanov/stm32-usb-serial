@@ -4,10 +4,14 @@
 TARGET = stm32f103c8t6_fw
 FW_START_ADDRESS = 0x08000000
 
-ESDL_DIR = ../../ext/embedded-sys-lib-drv
+ESDL_DIR = ../../ext/embedded-sys-drv-lib
 SCRIPTS_PATH = $(ESDL_DIR)/tools
 ESDL_INC_DIR = $(ESDL_DIR)/include
 ESDL_SRC_DIR = $(ESDL_DIR)/src
+PROJECT_INC_DIR = ../../include
+PROJECT_SRC_DIR = ../../src
+SYSTEM_SRC_DIR = $(PROJECT_SRC_DIR)/system
+PROTO_SRC_DIR = $(PROJECT_SRC_DIR)/proto
 
 ######################################
 # building variables
@@ -33,20 +37,20 @@ C_SOURCES =  \
 main.c \
 bsp/led.c \
 bsp/bsp.c \
+bsp/spi1.c \
+src/bsp/usart1.c \
 $(ESDL_SRC_DIR)/rcc/rcc_stm32f103.c \
 $(ESDL_SRC_DIR)/systick/systick_cm3.c \
 $(ESDL_SRC_DIR)/gpio/gpio_stm32f1xx.c \
-# $(STM32DRV_SRC_DIR)/uart/uart_f4xx.c \
-# $(STM32DRV_SRC_DIR)/spi/spi_f4xx.c \
-# src/bsp/usart1.c \
-# src/bsp/spi5.c \
-# src/system/system.c \
-# src/system/exchange.c \
-# src/system/spi_control.c \
-# src/proto/proto.c \
-# src/proto/crc16.c \
-# src/proto/ringbuffer.c \
-# src/proto/parser.c \
+$(ESDL_SRC_DIR)/uart/uart_f1xx.c \
+$(ESDL_SRC_DIR)/spi/spi_stm32.c \
+$(SYSTEM_SRC_DIR)/system.c \
+$(SYSTEM_SRC_DIR)/spi_control.c \
+$(SYSTEM_SRC_DIR)/exchange.c \
+$(PROTO_SRC_DIR)/proto.c \
+$(PROTO_SRC_DIR)/crc16.c \
+$(PROTO_SRC_DIR)/ringbuffer.c \
+$(PROTO_SRC_DIR)/parser.c
 
 # ASM sources
 ASM_SOURCES =  \
@@ -100,7 +104,8 @@ AS_INCLUDES =
 
 # C includes
 C_INCLUDES = \
--I$(ESDL_INC_DIR)
+-I$(ESDL_INC_DIR) \
+-I$(PROJECT_INC_DIR)
 
 
 # compile gcc flags

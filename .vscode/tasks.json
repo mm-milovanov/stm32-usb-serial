@@ -1,0 +1,15 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build stm32f103c8t6",
+            "type": "shell",
+            "group": "build",
+            "command": "make",
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceRoot}/devices/stm32f103c8t6"
+            }
+        }
+    ]
+}
